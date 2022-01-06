@@ -7,38 +7,53 @@ on:
 
 ## 2
 jobs:
-  init:
-    runs-on: [ ubuntu-latest ]
+#   init:
+#     runs-on: [ ubuntu-latest ]
   
-    steps:
-     - uses: actions/checkout@v2
+#     steps:
+#      - uses: actions/checkout@v2
      
-     - name: set up JDK 1.8
-       uses: actions/setup-java@v2
-       with:
-        java-version: 8.0.232+9.1
-        distribution: 'adopt'
-        cache: gradle
+#      - name: set up JDK 1.8
+#        uses: actions/setup-java@v2
+#        with:
+#         java-version: 8.0.232+9.1
+#         distribution: 'adopt'
+#         cache: gradle
 
-     - name: Grant execute permission for gradlew
-       run: chmod +x gradlew
-
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
 
   ## 3
   unit_tests:
-    needs: init
     runs-on: [ubuntu-latest]
     steps:
+      
       - uses: actions/checkout@v2
 
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8.0.232+9.1
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        
       - name: Unit tests
         run: ./gradlew test
   ## 4
   android_tests:
-    needs: init
     runs-on: [ macos-latest ]
     steps:
       - uses: actions/checkout@v2
+
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8.0.232+9.1
+          distribution: 'adopt'
+          cache: gradle
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
