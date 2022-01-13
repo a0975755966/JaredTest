@@ -1,0 +1,50 @@
+## 1
+name: Test PR
+
+## Actions that will be executed when you push code currently none
+on:
+  pull_request:
+    branches:
+    - master
+
+## 2
+jobs:
+  unit_tests:
+    runs-on: [ubuntu-latest]
+    steps:
+      
+      - uses: actions/checkout@v2
+
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8.0.232+9.1
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        
+      - name: Unit tests
+        run: ./gradlew test
+  ## 4
+  android_tests:
+    runs-on: [ macos-latest ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8.0.232+9.1
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Instrumentation Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedAndroidTest
